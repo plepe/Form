@@ -16,7 +16,7 @@ function form(id, def, options) {
   this.table=document.getElementById(this.id);
   if(this.table) {
     // read orig_data
-    var inputs=this.table.getElementsByTagName("input");
+    var inputs=document.getElementsByTagName("input");
     for(var i=0; i<inputs.length; i++) {
       if(inputs[i].name=="form_orig_"+this.options.var_name)
 	this.orig_data=json_decode(inputs[i].value);
@@ -45,6 +45,7 @@ form.prototype.connect=function() {
 
   var element_dom_parent=document.getElementById(this.id);
   this.element.connect(element_dom_parent);
+  this.element.set_orig_data(this.orig_data);
 }
 
 form.prototype.get_data=function() {

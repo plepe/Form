@@ -7,6 +7,7 @@ form_element.prototype.init=function(id, def, options, form_parent) {
   this.options=options;
   this.form_parent=form_parent;
   this.data=null;
+  this.orig_data=null;
 }
 
 form_element.prototype.name=function() {
@@ -46,6 +47,14 @@ form_element.prototype.get_data=function() {
 
 form_element.prototype.set_data=function(data) {
   this.data=data;
+}
+
+form_element.prototype.get_orig_data=function() {
+  return this.orig_data;
+}
+
+form_element.prototype.set_orig_data=function(data) {
+  this.orig_data=data;
 }
 
 form_element.prototype.show=function() {
