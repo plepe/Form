@@ -45,7 +45,7 @@ form.prototype.connect=function() {
 
   var element_dom_parent=document.getElementById(this.id);
   this.element.connect(element_dom_parent);
-  this.element.set_orig_data(this.orig_data);
+  this.set_orig_data(this.orig_data);
 }
 
 form.prototype.get_data=function() {
@@ -53,9 +53,21 @@ form.prototype.get_data=function() {
 }
 
 form.prototype.set_data=function(data) {
+  if((!this.has_data)&&(!this.has_orig_data))
+    this.set_orig_data(data);
   this.has_data=true;
 
   this.element.set_data(data);
+}
+
+form.prototype.get_orig_data=function() {
+  return this.element.get_orig_data();
+}
+
+form.prototype.set_orig_data=function(data) {
+  this.has_orig_data=true;
+
+  this.element.set_orig_data(data);
 }
 
 form.prototype.show=function(dom_parent) {
