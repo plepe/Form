@@ -8,6 +8,21 @@ form_element_radio.prototype.init=function(id, def, options, form_parent) {
   this.data=null;
 }
 
+form_element_radio.prototype.change_value=function(value) {
+  var dom=this.dom_values[value];
+  var on=dom.checked;
+  var orig_data=this.get_orig_data();
+
+  for(var k in this.dom_values) {
+    if(orig_data==value)
+      this.dom_values[k].parentNode.className="form_orig";
+    else if((k==orig_data)||(k==value))
+      this.dom_values[k].parentNode.className="form_modified";
+    else
+      this.dom_values[k].parentNode.className="form_orig";
+  }
+}
+
 form_element_radio.prototype.connect=function(dom_parent) {
   this.parent.connect.call(this, dom_parent);
 
@@ -17,6 +32,8 @@ form_element_radio.prototype.connect=function(dom_parent) {
     if(current.nodeName=="SPAN") {
       var dom=current.firstChild;
       this.dom_values[dom.value]=dom;
+
+      dom.onchange=this.change_value.bind(this, dom.value);
     }
 
     current=current.nextSibling;
@@ -74,6 +91,8 @@ form_element_radio.prototype.show_element=function() {
       input.checked=true;
     span.appendChild(input);
     this.dom_values[k]=input;
+
+    input.onchange=this.change_value.bind(this, k);
 
     var label=document.createElement("label");
     label.setAttribute("for", id);

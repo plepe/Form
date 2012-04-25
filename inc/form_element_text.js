@@ -6,9 +6,17 @@ form_element_text.prototype.init=function(id, def, options, form_parent) {
   this.parent.init.call(this, id, def, options, form_parent);
 }
 
+form_element_text.prototype.change_value=function() {
+  if(this.get_orig_data()==this.get_data())
+    this.dom_element.className="form_orig";
+  else
+    this.dom_element.className="form_modified";
+}
+
 form_element_text.prototype.connect=function(dom_parent) {
   this.parent.connect.call(this, dom_parent);
   this.dom_element=this.dom_parent.getElementsByTagName("input")[0];
+  this.dom_element.onchange=this.change_value.bind(this);
 }
 
 form_element_text.prototype.show_element=function() {
@@ -26,6 +34,7 @@ form_element_text.prototype.show_element=function() {
     input.value=this.data;
   div.appendChild(input);
   this.dom_element=input;
+  this.dom_element.onchange=this.change_value.bind(this);
 
   return div;
 }

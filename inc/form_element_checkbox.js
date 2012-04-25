@@ -8,6 +8,20 @@ form_element_checkbox.prototype.init=function(id, def, options, form_parent) {
   this.dom_values=null;
 }
 
+form_element_checkbox.prototype.change_value=function(value) {
+  var dom=this.dom_values[value];
+  var on=dom.checked;
+  var orig_data=this.get_orig_data();
+  if(!orig_data)
+    orig_data=[];
+
+  if(((orig_data.indexOf(value)!=-1)&&on)||
+     ((orig_data.indexOf(value)==-1)&&(!on)))
+    dom.parentNode.className="form_orig";
+  else
+    dom.parentNode.className="form_modified";
+}
+
 form_element_checkbox.prototype.connect=function(dom_parent) {
   this.parent.connect.call(this, dom_parent);
 
@@ -17,6 +31,8 @@ form_element_checkbox.prototype.connect=function(dom_parent) {
     if(current.nodeName=="SPAN") {
       var dom=current.firstChild;
       this.dom_values[dom.value]=dom;
+
+      dom.onchange=this.change_value.bind(this, dom.value);
     }
 
     current=current.nextSibling;
@@ -84,6 +100,8 @@ form_element_checkbox.prototype.show_element=function() {
       input.checked=true;
     span.appendChild(input);
     this.dom_values[k]=input;
+
+    input.onchange=this.change_value.bind(this, k);
 
     var label=document.createElement("label");
     label.setAttribute("for", id);
