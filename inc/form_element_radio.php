@@ -8,8 +8,7 @@ class form_element_radio extends form_element {
 
       // check for changes
       $class="form_orig";
-      if(isset($this->orig_data)&&
-	 ($this->data!=$this->orig_data)&&
+      if(($this->data!=$this->orig_data)&&
 	 (($k==$this->data)||($k==$this->orig_data)))
 	$class="form_modified";
 

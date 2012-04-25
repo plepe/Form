@@ -45,15 +45,15 @@ class form {
 
     $this->build_form();
 
-    $this->has_data=false;
-    if($_REQUEST[$this->options['var_name']])
-      $this->set_request_data($_REQUEST[$this->options['var_name']]);
-
     $this->has_orig_data=false;
     if(isset($_REQUEST['form_orig_'.$this->options['var_name']])) {
       $orig_data=json_decode($_REQUEST['form_orig_'.$this->options['var_name']], true);
       $this->set_orig_data($orig_data);
     }
+
+    $this->has_data=false;
+    if($_REQUEST[$this->options['var_name']])
+      $this->set_request_data($_REQUEST[$this->options['var_name']]);
   }
 
   function build_form() {
@@ -72,6 +72,8 @@ class form {
   }
 
   function set_data($data) {
+    if((!$this->has_data)&&(!$this->has_orig_data))
+      $this->set_orig_data($data);
     $this->has_data=true;
 
     $this->element->set_data($data);
