@@ -64,6 +64,7 @@ class form_element_array extends form_element {
     if(isset($this->data['__remove'])) {
       $remove=$this->data['__remove'];
       unset($this->data['__remove']);
+      $this->changed_count=true;
     }
 
     foreach($this->elements as $k=>$element) {
@@ -87,7 +88,6 @@ class form_element_array extends form_element {
       unset($this->data[$k]);
       unset($this->elements[$k]);
     }
-    $this->changed_count=true;
 
     unset($this->data);
   }
